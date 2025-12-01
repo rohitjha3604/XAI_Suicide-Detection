@@ -313,11 +313,25 @@ def display_header():
     
     with st.expander("📞 Crisis Resources"):
         st.markdown("""
-        - **National Suicide Prevention Lifeline (US)**: 988
+        **🇮🇳 India:**
+        - **iCALL**: 9152987821 (Mon-Sat, 10 AM-8 PM)
+          - Languages: English, Hindi, Marathi, Gujarati, Bengali, Assamese, Punjabi, Malayalam
+          - *Calls are not toll free*
+        - **Vandrevala Foundation**: 1860-2662-345 (24/7)
+        - **AASRA**: 9820466726 (24/7)
+        
+        **🇺🇸 USA:**
+        - **National Suicide Prevention Lifeline**: 988
         - **Crisis Text Line**: Text HOME to 741741
+        
+        **🇬🇧 UK:**
+        - **Samaritans**: 116 123 (24/7, Free)
+        
+        **🇨🇦 Canada:**
+        - **Crisis Services Canada**: 1-833-456-4566
+        
+        **🌍 International:**
         - **International Association for Suicide Prevention**: [Crisis Centres](https://www.iasp.info/resources/Crisis_Centres/)
-        - **UK Samaritans**: 116 123
-        - **Canada Crisis Services**: 1-833-456-4566
         """)
 
 def display_sidebar():

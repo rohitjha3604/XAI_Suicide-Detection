@@ -54,7 +54,9 @@ def explain_with_gemini(
         "This AI system is for informational purposes only. "
         "If you or someone you know is struggling with thoughts of suicide, "
         "please reach out to professional help immediately:\n"
-        "- **National Suicide Prevention Lifeline**: 988 (US)\n"
+        "- **iCALL (India)**: 9152987821 (Mon-Sat, 10 AM-8 PM)\n"
+        "- **Vandrevala Foundation (India)**: 1860-2662-345 (24/7)\n"
+        "- **National Suicide Prevention Lifeline (US)**: 988\n"
         "- **Crisis Text Line**: Text HOME to 741741\n"
         "- **International Association for Suicide Prevention**: https://www.iasp.info/resources/Crisis_Centres/"
     )
