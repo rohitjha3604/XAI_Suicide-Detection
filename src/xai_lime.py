@@ -6,15 +6,66 @@ Provides word-level contributions for model predictions.
 import os
 import joblib
 import numpy as np
+import requests
 from lime.lime_text import LimeTextExplainer
 from typing import Tuple, List, Dict
 
 # Class names for the explainer
 CLASS_NAMES = ["Non-Suicide", "Suicide"]
 
+# Google Drive file ID for the model
+GDRIVE_MODEL_FILE_ID = "16v9hQTwdT1BUiCgYTPzs0wivBTza62KS"
+
+def download_model_from_gdrive(file_id: str, destination: str) -> bool:
+    """
+    Download a file from Google Drive.
+    
+    Args:
+        file_id: Google Drive file ID
+        destination: Local path to save the file
+        
+    Returns:
+        True if download successful, False otherwise
+    """
+    try:
+        print(f"Downloading model from Google Drive...")
+        
+        # Create directory if it doesn't exist
+        os.makedirs(os.path.dirname(destination), exist_ok=True)
+        
+        # Google Drive direct download URL
+        url = f"https://drive.google.com/uc?export=download&id={file_id}"
+        
+        session = requests.Session()
+        response = session.get(url, stream=True)
+        
+        # Check for large file confirmation token
+        token = None
+        for key, value in response.cookies.items():
+            if key.startswith('download_warning'):
+                token = value
+                break
+        
+        if token:
+            url = f"https://drive.google.com/uc?export=download&confirm={token}&id={file_id}"
+            response = session.get(url, stream=True)
+        
+        # Save the file
+        with open(destination, 'wb') as f:
+            for chunk in response.iter_content(chunk_size=32768):
+                if chunk:
+                    f.write(chunk)
+        
+        print(f"Model downloaded successfully to: {destination}")
+        return True
+        
+    except Exception as e:
+        print(f"Error downloading model: {e}")
+        return False
+
 def load_model(model_path: str = None):
     """
-    Load the trained model pipeline.
+    Load the trained model pipeline. Downloads from Google Drive if not found locally.
     
     Args:
         model_path: Path to the model file. If None, uses default path.
@@ -26,8 +77,17 @@ def load_model(model_path: str = None):
         project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         model_path = os.path.join(project_root, "models", "suicide_text_model.pkl")
     
+    # If model doesn't exist locally, try to download from Google Drive
     if not os.path.exists(model_path):
-        raise FileNotFoundError(f"Model not found at: {model_path}")
+        print(f"Model not found locally at: {model_path}")
+        success = download_model_from_gdrive(GDRIVE_MODEL_FILE_ID, model_path)
+        
+        if not success:
+            raise FileNotFoundError(
+                f"Model not found at: {model_path}\n"
+                "Failed to download from Google Drive.\n"
+                "Please run 'python src/train_model.py' to train a new model."
+            )
     
     return joblib.load(model_path)
 

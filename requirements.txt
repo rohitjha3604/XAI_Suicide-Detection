@@ -17,6 +17,9 @@ streamlit>=1.28.0
 # Data Download
 kagglehub>=0.2.0
 
+# HTTP requests (for Google Drive download)
+requests>=2.28.0
+
 # Gemini API (optional)
 google-generativeai>=0.3.0
 

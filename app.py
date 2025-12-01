@@ -352,9 +352,10 @@ def display_sidebar():
 
 @st.cache_resource
 def get_model():
-    """Load and cache the model."""
+    """Load and cache the model. Downloads from Google Drive if not available locally."""
     try:
-        return load_model()
+        with st.spinner("Loading model... (downloading from Google Drive if needed)"):
+            return load_model()
     except FileNotFoundError as e:
         st.error(f"Model not found: {e}")
         st.info("Please run `python src/train_model.py` first to train the model.")
