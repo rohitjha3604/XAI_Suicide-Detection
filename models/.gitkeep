@@ -1,0 +1,2 @@
+# This directory stores trained model files
+# Run: python src/train_model.py
